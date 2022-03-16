@@ -1,4 +1,3 @@
-require('babel-register') //pour lire ES6
 
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
@@ -9,9 +8,19 @@ client.connect(err => {
 // perform actions on the collection object
     client.close();
 });*/
-const mongoose =require('mongoose')
-mongoose.connect('mongodb+srv://jimbob:<PASSWORD>@cluster0-pme76.mongodb.net/test?retryWrites=true&w=majority',
+
+/*mongoose.connect('mongodb+srv://jimbob:<PASSWORD>@cluster0-pme76.mongodb.net/test?retryWrites=true&w=majority',
     { useNewUrlParser: true,
         useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
+    .catch(() => console.log('Connexion à MongoDB échouée !'));*/
+
+module.exports = () => {
+        const mongoose =require('mongoose')
+         mongoose.connect('mongodb+srv://contact_user:passer@cluster0.7cenr.mongodb.net/contactsdb?retryWrites=true&w=majority',
+            { useNewUrlParser: true,
+                    useUnifiedTopology: true })
+            .then(() => console.log('Connexion à MongoDB réussie !'))
+            .catch(() => console.log('Connexion à MongoDB échouée !'));
+        return mongoose
+};
