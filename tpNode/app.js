@@ -4,6 +4,7 @@ const express = require('express') //export du module express en vue de creer un
 const app = express() //creation d'une instance express
 
 const contactController = require('./controller/ContactController')
+const userController = require('./controller/UserController')
 let router = express.Router()
 
 
@@ -35,6 +36,18 @@ router.put('/contact', function (req, res){
 router.delete('/contact', function (req, res){
     contactController.deleteContact(req, res)
 })
+
+router.post('/signup', function (req, res){
+    userController.addUser(req, res)
+})
+
+router.post('/login', function (req, res){
+    userController.login(req, res)
+})
+
+
+
+
 /*router.post("/add_user", async (request, response) => {
 
    const user = new contactModel(request.body);
