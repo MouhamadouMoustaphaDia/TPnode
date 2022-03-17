@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())//parser en json)
 app.use(bodyParser.urlencoded({extended: true}))
-
+app.use(cors({origin:'http://localhost:8000'}))
 app.use((req, res, next) => {
     console.log('request url:', req.url)
     next() //permet de passer à la suite de la requête
@@ -20,14 +20,13 @@ app.use((req, res, next) => {
 })
 
 router.get('/contacts', function (req, res){
-
+    console.log(req)
     contactController.getContactList(req, res)
 })
 router.get('/contact', function (req, res){
     contactController.getContact(req, res)
 })
 router.post('/contact', function (req, res){
-    console.log(req.body)
     contactController.addContact(req, res)
 })
 router.put('/contact', function (req, res){
@@ -44,6 +43,20 @@ router.post('/signup', function (req, res){
 router.post('/login', function (req, res){
     userController.login(req, res)
 })
+
+router.post('/user/add_contact', function (req, res){
+    userController.addUserContact(req, res)
+})
+router.get('/user', function (req, res){
+    userController.getUser(req, res)
+})
+router.delete('/user/remove_contact', function (req, res){
+    userController.deleteUserContact(req, res)
+})
+/*
+router.delete('/user/contact', function (req, res){
+    userController.deleteUserContacts(req, res)
+})*/
 
 
 

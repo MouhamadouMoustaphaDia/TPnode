@@ -48,10 +48,7 @@ module.exports =  {
         return res;
     },
     addUserContact: (req, res) => {
-        console.log(req.body)
-        let conditions = {_id:req.body.id}
         let requestContact = req.body
-        delete requestContact.body.user;
         userModel.findByIdAndUpdate(req.body.id,
             {
                 $push: {
@@ -74,6 +71,23 @@ module.exports =  {
         userModel.find()
             .then(users => res.status(200).json(users))
             .catch(error => res.status(400).json({message: error.message }));
+        return res
+    },
+    deleteUserContact: (req, res) => {
+        //var arrContact = []
+        let arrC = userModel.findOne({ _id: req.body.id })
+            .then(user => {
+                for(let i=0; i< user.contacts.length; i++){
+                    if (user.contacts[i].email === req.body.email){
+                         user.contacts.splice(i, 1);
+
+                    }
+                }
+                userModel.findByIdAndUpdate(req.body.id, {
+                    contacts: user.contacts
+                })
+            }).then(() => res.status(201).json({ message: 'success'}))
+            .catch(error => res.status(404).json({ error }));
         return res
     },
 
