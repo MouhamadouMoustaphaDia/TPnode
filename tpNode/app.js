@@ -1,4 +1,3 @@
-const contactModel = require('./model/Contact')
 const express = require('express') //export du module express en vue de creer un serveur
 const cors = require('cors');
 const app = express() //creation d'une instance express
@@ -12,16 +11,36 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json())//parser en json)
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(cors())
+
 
 app.use((req, res, next) => {
     console.log('request url:', req.url)
+
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+    // Set to true if you need the website to include cookies in the requests sent
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
     next() //permet de passer à la suite de la requête
 
 })
 
+const whitelist = ['http://localhost:8000'];
+const corsOptions = {
+    credentials: true, // This is important.
+    origin: (origin, callback) => {
+        if(whitelist.includes(origin))
+            return callback(null, true)
+
+        callback(new Error('Not allowed by CORS'));
+    }
+}
+
+app.use(cors(corsOptions));
+
 router.get('/contacts', function (req, res){
-    console.log(req)
     contactController.getContactList(req, res)
 })
 router.get('/contact', function (req, res){
