@@ -12,7 +12,7 @@ const bodyParser = require('body-parser')
 
 app.use(bodyParser.json()) //parser en json)
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(cors({ origin: 'http://127.0.0.1:8000' }))
+app.use(cors({ origin: 'http://127.0.0.1:8000/' }))
 
 app.use((req, res, next) => {
     console.log('request url:', req.url)
