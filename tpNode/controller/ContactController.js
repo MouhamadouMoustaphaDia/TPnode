@@ -22,10 +22,27 @@ module.exports =  {
     },
 
      getContact: (req, res) => {
-        contactModel.findOne({ email: req.params.email })
+        contactModel.findOne({ _id: req.body.id })
             .then(contact => res.status(200).json(contact))
             .catch(error => res.status(404).json({ error }));
         return res
+    },
+
+    updateContact: (req, res) => {
+        let conditions = {_id:req.body.id}
+        contactModel.update(conditions, req.body)
+            .then(() => res.status(201).json({ message: 'success'}))
+            .catch(error => res.status(400).json({ message:error.message }));
+        return (res)
+
+    },
+    deleteContact: (req, res) => {
+        let conditions = {_id:req.body.id}
+        contactModel.remove(conditions)
+            .then(() => res.status(201).json({ message: 'success'}))
+            .catch(error => res.status(400).json({ message:error.message }));
+        return (res)
+
     }
 };
 

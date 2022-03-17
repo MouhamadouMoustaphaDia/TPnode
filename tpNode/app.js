@@ -4,23 +4,38 @@ const express = require('express') //export du module express en vue de creer un
 const app = express() //creation d'une instance express
 
 const contactController = require('./controller/ContactController')
-const router = express.Router()
+let router = express.Router()
+
+
+const bodyParser = require('body-parser')
+
+app.use(bodyParser.json())//parser en json)
+app.use(bodyParser.urlencoded({extended: true}))
+
+app.use((req, res, next) => {
+    console.log('request url:', req.url)
+    next() //permet de passer à la suite de la requête
+
+})
 
 router.get('/contacts', function (req, res){
 
-    contactController.getContactList(req.body, res)
+    contactController.getContactList(req, res)
 })
-router.get('/contact/:mail', function (req, res){
-    contactController.getContact(req.body, res)
-
+router.get('/contact', function (req, res){
+    contactController.getContact(req, res)
 })
 router.post('/contact', function (req, res){
     console.log(req.body)
-    //onsole.log(req.params, req)
     contactController.addContact(req, res)
 })
-
-router.post("/add_user", async (request, response) => {
+router.put('/contact', function (req, res){
+    contactController.updateContact(req, res)
+})
+router.delete('/contact', function (req, res){
+    contactController.deleteContact(req, res)
+})
+/*router.post("/add_user", async (request, response) => {
 
    const user = new contactModel(request.body);
     console.log(user)
@@ -32,7 +47,7 @@ router.post("/add_user", async (request, response) => {
         console.log(error.message)
         response.status(500).send(error);
     }
-});
+});*/
 
 
 app.use("/api", router)
