@@ -80,7 +80,6 @@ module.exports =  {
                 for(let i=0; i< user.contacts.length; i++){
                     if (user.contacts[i].email === req.body.email){
                          user.contacts.splice(i, 1);
-
                     }
                 }
                 userModel.findByIdAndUpdate(req.body.id, {
