@@ -27,7 +27,7 @@ app.use((req, res, next) => {
 
 })
 
-const whitelist = ['http://localhost:8000'];
+const whitelist = ['http://localhost:8000', 'http://127.0.0.1:8000'];
 const corsOptions = {
     credentials: true, // This is important.
     origin: (origin, callback) => {
